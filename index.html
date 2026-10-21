@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>MísterHub S11 - CF Santa Eulàlia Ronçana A (Grup 10 FCF)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            seGreen: '#007A33',
+            seDarkGreen: '#14532d',
+            seMidGreen: '#15803d',
+            seLightMint: '#f0fdf4',
+            seSoftMint: '#dcfce7'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Teko:wght@600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0fdf4;
+      color: #14532d;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-teko { font-family: 'Teko', sans-serif; letter-spacing: 0.04em; }
+
+    /* Capçalera Verd i Blanca CF Santa Eulàlia */
+    .se-header-bg {
+      background: linear-gradient(135deg, #007A33 0%, #14532d 100%);
+      position: relative;
+    }
+    .se-stripes-bar {
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        #007A33 0px,
+        #007A33 24px,
+        #ffffff 24px,
+        #ffffff 48px
+      );
+    }
+
+    /* Samarreta / Fitxa Verd i Blanca de Santa Eulàlia al camp */
+    .se-striped-token {
+      background: repeating-linear-gradient(
+        90deg,
+        #007A33 0px,
+        #007A33 6px,
+        #ffffff 6px,
+        #ffffff 12px
+      );
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Camp de Futbol 7 Reglamentari FCF */
+    .tactical-pitch {
+      background: radial-gradient(circle at center, #236c35 0%, #164923 100%);
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.05) 0px,
+        rgba(255,255,255,0.05) 32px,
+        transparent 32px,
+        transparent 64px
+      );
+      border: 4px solid #ffffff;
+      position: relative;
+      touch-action: none;
+    }
+    .pitch-line {
+      position: absolute;
+      border-color: rgba(255, 255, 255, 0.85);
+      pointer-events: none;
+    }
+    .player-token {
+      touch-action: none;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      cursor: grab;
+      user-select: none;
+    }
+    .player-token:active {
+      cursor: grabbing;
+      transform: scale(1.18);
+      z-index: 50;
+    }
+
+    /* Impressió PDF neta */
+    @media print {
+      body * { visibility: hidden; }
+      #printable-report, #printable-report * { visibility: visible; }
+      #printable-report {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white !important;
+        color: black !important;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-seGreen selection:text-white">
+
+  <!-- FRANJA SUPERIOR VERD-I-BLANCA -->
+  <div class="se-stripes-bar w-full sticky top-0 z-50 shadow-sm"></div>
+
+  <!-- CAPÇALERA PRINCIPAL VERD I BLANCA -->
+  <header class="se-header-bg text-white sticky top-[6px] z-40 px-3 sm:px-6 py-3 shadow-lg border-b-2 border-white/20">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Escut i Nom del Club -->
+      <div class="flex items-center space-x-3.5">
+        <!-- Escut SVG Verd i Blanc del CF Santa Eulàlia -->
+        <div class="w-12 h-12 rounded-full bg-white p-1 shadow-md flex items-center justify-center border-2 border-emerald-300 shrink-0">
+          <div class="w-full h-full rounded-full se-striped-token flex items-center justify-center relative overflow-hidden">
+            <div class="bg-seDarkGreen/95 text-white font-black text-xs px-1.5 py-0.5 rounded shadow border border-white tracking-tighter">
+              CFSE
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-base sm:text-xl font-black tracking-tight text-white uppercase drop-shadow-sm">
+              SANTA EULALIA RONÇANA, C.F. A
+            </h1>
+            <span class="text-[11px] bg-white text-seGreen font-extrabold px-2.5 py-0.5 rounded-full shadow-sm uppercase">
+              9è Classificat • 3 Pts
+            </span>
+          </div>
+          <p class="text-xs text-emerald-100 font-semibold flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-shield-halved text-white"></i>
+            Tercera Divisió Aleví S11 (Grup 10) • Federació Catalana de Futbol (2026/27)
+          </p>
+        </div>
+      </div>
+
+      <!-- Botons d'Acció Ràpida -->
+      <div class="flex items-center gap-2">
+        <button onclick="saveFullData()" class="bg-white hover:bg-emerald-50 text-seGreen text-xs px-3.5 py-2 rounded-xl font-extrabold flex items-center gap-1.5 shadow-md transition active:scale-95">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span>Guardar Tot</span>
+        </button>
+        <button onclick="openPrintModal()" class="bg-emerald-800/80 hover:bg-emerald-800 text-white text-xs px-3 py-2 rounded-xl border border-white/30 font-bold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-print"></i>
+          <span class="hidden sm:inline">Informe Partit</span>
+        </button>
+        <button onclick="exportBackup()" class="bg-emerald-800/80 hover:bg-emerald-800 text-white text-xs px-2.5 py-2 rounded-xl border border-white/30" title="Exportar JSON">
+          <i class="fa-solid fa-download"></i>
+        </button>
+        <label class="bg-emerald-800/80 hover:bg-emerald-800 text-white text-xs px-2.5 py-2 rounded-xl border border-white/30 cursor-pointer" title="Importar JSON">
+          <i class="fa-solid fa-upload"></i>
+          <input type="file" id="import-file" onchange="importBackup(event)" class="hidden" accept=".json">
+        </label>
+      </div>
+    </div>
+
+    <!-- Barra de Pestanyes (Tabs) -->
+    <nav class="max-w-7xl mx-auto flex gap-1.5 sm:gap-2 overflow-x-auto text-xs sm:text-sm mt-3 pt-2 border-t border-white/20 scrollbar-none">
+      <button onclick="switchTab('partit')" id="tab-nav-partit" class="tab-btn px-4 py-2 font-extrabold rounded-t-xl bg-white text-seGreen shadow-sm flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-futbol"></i> Partit & Pissarra F7
+      </button>
+      <button onclick="switchTab('scouting')" id="tab-nav-scouting" class="tab-btn px-4 py-2 font-bold rounded-t-xl bg-emerald-900/50 text-emerald-100 hover:bg-emerald-800/60 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-binoculars"></i> Scouting Rivals (Grup 10)
+      </button>
+      <button onclick="switchTab('classificacio')" id="tab-nav-classificacio" class="tab-btn px-4 py-2 font-bold rounded-t-xl bg-emerald-900/50 text-emerald-100 hover:bg-emerald-800/60 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-trophy"></i> Classificació Oficial FCF (16)
+      </button>
+      <button onclick="switchTab('plantilla')" id="tab-nav-plantilla" class="tab-btn px-4 py-2 font-bold rounded-t-xl bg-emerald-900/50 text-emerald-100 hover:bg-emerald-800/60 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-shirt"></i> Plantilla Santa Eulàlia
+      </button>
+    </nav>
+  </header>
+
+  <!-- CONTINGUT PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-5 w-full flex-1">
+
+    <!-- ======================================================== -->
+    <!-- PESTANYA 1: PARTIT & PISSARRA F7                         -->
+    <!-- ======================================================== -->
+    <section id="tab-partit" class="tab-panel space-y-5">
+      
+      <!-- Selector de Partit i Marcador Oficial FCF per 4 Quarts -->
+      <div class="bg-white border-2 border-emerald-700/20 p-4 sm:p-5 rounded-2xl shadow-md">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+          
+          <!-- Selecció del Rival Oficial / Jornada / Camp -->
+          <div class="lg:col-span-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-seGreen flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar-day"></i> Configuració de Partit Oficial
+              </span>
+              <button onclick="goToRivalScouting(appState.activeRivalId)" class="text-[11px] font-bold text-seGreen bg-seSoftMint hover:bg-emerald-200 px-2.5 py-1 rounded-lg transition">
+                <i class="fa-solid fa-magnifying-glass mr-1"></i>Veure informe rival
+              </button>
+            </div>
+
+            <div>
+              <label class="text-[11px] font-bold text-emerald-900 uppercase block mb-1">Rival del Grup 10 (FCF)</label>
+              <select id="match-rival-select" onchange="onSelectRival(this.value)" class="w-full bg-seLightMint border-2 border-emerald-600/40 text-seDarkGreen font-extrabold text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-seGreen focus:outline-none">
+                <!-- S'omple amb els 15 rivals oficials -->
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] font-bold text-emerald-900 uppercase block mb-1">Jornada Lliga</label>
+                <input type="number" id="match-jornada" value="3" min="1" max="30" onchange="saveCurrentMatchState()" class="w-full bg-seLightMint border-2 border-emerald-600/30 text-seDarkGreen font-black text-sm rounded-xl px-3 py-2 text-center">
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-emerald-900 uppercase block mb-1">Condició</label>
+                <select id="match-venue" onchange="saveCurrentMatchState()" class="w-full bg-seLightMint border-2 border-emerald-600/30 text-seDarkGreen font-bold text-xs sm:text-sm rounded-xl px-3 py-2">
+                  <option value="CASA">🏠 Casa (Mpal. Sta. Eulàlia)</option>
+                  <option value="FORA">🚌 Fora (Camp Visitant)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Marcador per Quarts Reglamentaris FCF (4x12') -->
+          <div class="lg:col-span-7 bg-gradient-to-br from-seDarkGreen to-seGreen text-white p-4 rounded-2xl shadow-inner border-2 border-emerald-700">
+            <div class="flex items-center justify-between text-xs font-extrabold mb-3 pb-2 border-b border-white/20">
+              <span class="flex items-center gap-2 text-white">
+                <span class="w-3 h-3 rounded-full bg-white border-2 border-emerald-400 inline-block"></span>
+                SANTA EULÀLIA RONÇANA
+              </span>
+              <span class="text-[10px] uppercase tracking-widest bg-white/20 px-2.5 py-0.5 rounded-full">4 Quarts x 12 Minuts</span>
+              <span id="scoreboard-rival-title" class="text-amber-300 truncate max-w-[160px] text-right">CALDES MONTBUI, C.F. A</span>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 text-center">
+              <!-- 1r Quart -->
+              <div class="bg-white/10 backdrop-blur-sm p-2 rounded-xl border border-white/20">
+                <span class="text-[10px] text-emerald-200 font-bold uppercase block mb-1">1r Quart</span>
+                <div class="flex items-center justify-center gap-1 font-bold">
+                  <input type="number" id="q1-home" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-white text-seDarkGreen rounded-lg text-sm py-1 font-black">
+                  <span class="text-white/70">-</span>
+                  <input type="number" id="q1-away" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-slate-900 text-amber-300 rounded-lg text-sm py-1 font-black">
+                </div>
+              </div>
+              <!-- 2n Quart -->
+              <div class="bg-white/10 backdrop-blur-sm p-2 rounded-xl border border-white/20">
+                <span class="text-[10px] text-emerald-200 font-bold uppercase block mb-1">2n Quart</span>
+                <div class="flex items-center justify-center gap-1 font-bold">
+                  <input type="number" id="q2-home" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-white text-seDarkGreen rounded-lg text-sm py-1 font-black">
+                  <span class="text-white/70">-</span>
+                  <input type="number" id="q2-away" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-slate-900 text-amber-300 rounded-lg text-sm py-1 font-black">
+                </div>
+              </div>
+              <!-- 3r Quart -->
+              <div class="bg-white/10 backdrop-blur-sm p-2 rounded-xl border border-white/20">
+                <span class="text-[10px] text-emerald-200 font-bold uppercase block mb-1">3r Quart</span>
+                <div class="flex items-center justify-center gap-1 font-bold">
+                  <input type="number" id="q3-home" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-white text-seDarkGreen rounded-lg text-sm py-1 font-black">
+                  <span class="text-white/70">-</span>
+                  <input type="number" id="q3-away" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-slate-900 text-amber-300 rounded-lg text-sm py-1 font-black">
+                </div>
+              </div>
+              <!-- 4t Quart -->
+              <div class="bg-white/10 backdrop-blur-sm p-2 rounded-xl border border-white/20">
+                <span class="text-[10px] text-emerald-200 font-bold uppercase block mb-1">4t Quart</span>
+                <div class="flex items-center justify-center gap-1 font-bold">
+                  <input type="number" id="q4-home" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-white text-seDarkGreen rounded-lg text-sm py-1 font-black">
+                  <span class="text-white/70">-</span>
+                  <input type="number" id="q4-away" min="0" value="0" oninput="calculateScore()" class="w-8 text-center bg-slate-900 text-amber-300 rounded-lg text-sm py-1 font-black">
+                </div>
+              </div>
+            </div>
+
+            <!-- Resultat Global i Quarts Guanyats -->
+            <div class="flex flex-wrap items-center justify-between mt-3 pt-2.5 border-t border-white/20 px-1 gap-2">
+              <div class="text-xs text-emerald-100 font-semibold" id="quarters-summary-badge">
+                Quarts: 0G - 4E - 0P
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs uppercase font-bold tracking-wider text-emerald-100">Resultat Total:</span>
+                <div class="bg-white text-seDarkGreen px-3.5 py-0.5 rounded-xl font-teko text-3xl font-black shadow flex items-center gap-2">
+                  <span id="total-score-home" class="text-seGreen">0</span>
+                  <span class="text-slate-400">:</span>
+                  <span id="total-score-away" class="text-rose-600">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Pissarra Tàctica F7 + Selecció del 7 Titular -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Pissarra F7 Interactiva (7 columnes) -->
+        <div class="lg:col-span-7 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 shadow-md flex flex-col">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-emerald-100">
+            <div>
+              <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-2">
+                <i class="fa-solid fa-chalkboard-user"></i> Pissarra Tàctica F7 (Verd-i-Blanca)
+              </h3>
+              <p class="text-[11px] text-slate-500">Arrossega els jugadors de Santa Eulàlia i del rival per preparar el partit</p>
+            </div>
+            
+            <!-- Botons de Sistema F7 -->
+            <div class="flex items-center gap-1 text-xs">
+              <button onclick="changeTacticalSystem('1-2-3-1')" id="sys-btn-1-2-3-1" class="sys-btn px-2.5 py-1.5 bg-seGreen text-white rounded-lg font-extrabold shadow-sm">1-2-3-1</button>
+              <button onclick="changeTacticalSystem('1-3-2-1')" id="sys-btn-1-3-2-1" class="sys-btn px-2.5 py-1.5 bg-seSoftMint text-seDarkGreen rounded-lg font-bold hover:bg-emerald-200">1-3-2-1</button>
+              <button onclick="changeTacticalSystem('1-3-1-2')" id="sys-btn-1-3-1-2" class="sys-btn px-2.5 py-1.5 bg-seSoftMint text-seDarkGreen rounded-lg font-bold hover:bg-emerald-200">1-3-1-2</button>
+              <button onclick="resetPitchTokens()" class="px-2.5 py-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200" title="Reiniciar posicions">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Terreny de Joc F7 -->
+          <div id="tactical-field" class="tactical-pitch relative w-full h-[430px] sm:h-[460px] rounded-2xl overflow-hidden shadow-inner my-1">
+            <!-- Línia Mig Camp i Cercle Central -->
+            <div class="pitch-line inset-x-0 top-1/2 -translate-y-1/2 border-t-2"></div>
+            <div class="pitch-line left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full border-2"></div>
+            <div class="pitch-line left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full"></div>
+
+            <!-- Línia de Fora de Joc F7 (Línia puntejada a 13m) -->
+            <div class="pitch-line inset-x-0 top-[24%] border-t border-dashed border-white/60"></div>
+            <div class="pitch-line inset-x-0 bottom-[24%] border-t border-dashed border-white/60"></div>
+
+            <!-- Àrea Rival (Dalt) -->
+            <div class="pitch-line top-0 left-1/2 -translate-x-1/2 w-52 h-20 border-b-2 border-l-2 border-r-2"></div>
+            <div class="pitch-line top-0 left-1/2 -translate-x-1/2 w-28 h-8 border-b-2 border-l-2 border-r-2"></div>
+
+            <!-- Àrea Santa Eulàlia (Baix) -->
+            <div class="pitch-line bottom-0 left-1/2 -translate-x-1/2 w-52 h-20 border-t-2 border-l-2 border-r-2"></div>
+            <div class="pitch-line bottom-0 left-1/2 -translate-x-1/2 w-28 h-8 border-t-2 border-l-2 border-r-2"></div>
+
+            <!-- Contenidor de fitxes -->
+            <div id="pitch-tokens-container" class="w-full h-full relative"></div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between text-xs text-seDarkGreen font-semibold mt-2 px-1 gap-2">
+            <span class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded-full se-striped-token inline-block"></span>
+              CF Santa Eulàlia (Verd-i-Blanc)
+            </span>
+            <label class="flex items-center gap-1.5 cursor-pointer select-none">
+              <input type="checkbox" id="toggle-rival-tokens" checked onchange="toggleRivalOnMainPitch(this.checked)" class="accent-seGreen w-4 h-4 rounded">
+              <span>Mostrar 7 Rival sobre el camp</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Convocatòria i Selecció del 7 Titular (5 columnes) -->
+        <div class="lg:col-span-5 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-2.5 mb-2 border-b border-emerald-100">
+              <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-1.5">
+                <i class="fa-solid fa-users-line"></i> El Nostre 7 Titular i Banqueta
+              </h3>
+              <span id="starters-badge" class="text-xs bg-seGreen text-white font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">
+                7/7 Titulars
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 mb-3">
+              Selecciona els <strong>7 titulars</strong> que sortiran d'inici al camp i controla la rotació de quarts:
+            </p>
+            
+            <div id="match-squad-container" class="space-y-1.5 max-h-[350px] overflow-y-auto pr-1">
+              <!-- Llista dinàmica de jugadors -->
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-emerald-100 mt-3 flex flex-wrap justify-between items-center gap-2">
+            <button onclick="autoAssignStarters()" class="text-xs bg-seSoftMint hover:bg-emerald-200 text-seDarkGreen font-extrabold px-3 py-1.5 rounded-xl transition">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>7 Habitual
+            </button>
+            <button onclick="distributeQuartersFairly()" class="text-xs bg-emerald-700 hover:bg-seGreen text-white font-bold px-3 py-1.5 rounded-xl transition">
+              <i class="fa-solid fa-clock mr-1"></i>Equilibrar Quarts FCF
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Crònica del Partit + Taula de Notes i Gols del Santa Eulàlia -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Crònica del Míster, Objectius i MVP -->
+        <div class="lg:col-span-5 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md space-y-3.5">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-2">
+            <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-2">
+              <i class="fa-solid fa-clipboard-list"></i> Crònica i Apunts del Míster
+            </h3>
+            <span class="text-[11px] bg-seSoftMint text-seGreen px-2 py-0.5 rounded font-bold">Auto-guardat</span>
+          </div>
+
+          <div>
+            <label class="text-xs text-seDarkGreen font-bold block mb-1">Crònica del partit (Fase ofensiva, defensiva i actitud):</label>
+            <textarea id="match-cronica" oninput="saveCurrentMatchState()" rows="5" placeholder="Apunta com ha competit el Santa Eulàlia en cada quart, sortida de pilota, pressió alta, replegament i ocasions generades..." class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-seGreen resize-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs text-seGreen font-extrabold block mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-bullseye"></i> A millorar als entrenaments:
+              </label>
+              <input type="text" id="match-training-focus" oninput="saveCurrentMatchState()" placeholder="Ex: Sortida de pressió, 2n pal..." class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium focus:outline-none focus:border-seGreen">
+            </div>
+            <div>
+              <label class="text-xs text-amber-600 font-extrabold block mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-star"></i> Jugador MVP del Partit:
+              </label>
+              <input type="text" id="match-mvp" oninput="saveCurrentMatchState()" placeholder="Ex: #9 Martí (2 gols i pressió)" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium focus:outline-none focus:border-seGreen">
+            </div>
+          </div>
+        </div>
+
+        <!-- Avaluació Individual: Gols, Quarts i Notes -->
+        <div class="lg:col-span-7 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-2 mb-3">
+            <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-2">
+              <i class="fa-solid fa-user-check"></i> Actuació Individual Jugadors Santa Eulàlia
+            </h3>
+            <span class="text-xs text-slate-500 font-semibold">Gols, Quarts Jugats i Nota</span>
+          </div>
+
+          <div class="overflow-x-auto max-h-[320px] overflow-y-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-seDarkGreen text-white uppercase text-[10px] sticky top-0 z-10">
+                <tr>
+                  <th class="p-2.5 rounded-tl-lg">Jugador</th>
+                  <th class="p-2.5 text-center">Gols</th>
+                  <th class="p-2.5 text-center">Quarts (Q1-Q4)</th>
+                  <th class="p-2.5 text-center">Nota</th>
+                  <th class="p-2.5 rounded-tr-lg">Observació individual</th>
+                </tr>
+              </thead>
+              <tbody id="match-ratings-table-body" class="divide-y divide-emerald-100">
+                <!-- Generat dinàmicament -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- PESTANYA 2: SCOUTING DELS RIVALS (GRUP 10)               -->
+    <!-- ======================================================== -->
+    <section id="tab-scouting" class="tab-panel hidden space-y-5">
+      
+      <!-- Capçalera del Rival Seleccionat -->
+      <div class="bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-seSoftMint border-2 border-seGreen flex items-center justify-center text-seGreen font-black text-lg shadow-sm" id="scout-pos-badge">
+            1r
+          </div>
+          <div>
+            <span class="text-[10px] font-black text-seGreen uppercase tracking-widest block">Informe d'Scouting Rival • Grup 10</span>
+            <h2 id="scout-club-name" class="text-lg sm:text-xl font-black text-seDarkGreen leading-tight">CALDES MONTBUI, C.F. A</h2>
+            <p id="scout-club-stats" class="text-xs text-slate-600 font-semibold mt-0.5">9 Punts • 3 PJ (3G, 0E, 0P) • 20 Gols a Favor / 3 Gols en Contra</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="scout-switch-rival" onchange="onSelectRival(this.value)" class="bg-seLightMint border-2 border-emerald-600/40 text-seDarkGreen rounded-xl px-3 py-2 text-xs font-extrabold focus:outline-none">
+            <!-- 15 rivals oficials -->
+          </select>
+          <button onclick="saveScoutData(true)" class="px-4 py-2 bg-seGreen hover:bg-seDarkGreen text-white font-extrabold text-xs rounded-xl shadow transition">
+            <i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Informe Rival
+          </button>
+        </div>
+      </div>
+
+      <!-- Contingut d'Scouting: Dades + Mini Pissarra del 7 Titular Rival -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Fitxa d'Anàlisi del Rival (7 columnes) -->
+        <div class="lg:col-span-7 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md space-y-4">
+          <div class="flex items-center justify-between border-b border-emerald-100 pb-2">
+            <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass-chart"></i> Radiografia Tàctica i Jugadors Clau del Rival
+            </h3>
+            <span class="text-xs font-bold text-slate-400">Grup 10 FCF</span>
+          </div>
+
+          <!-- 7 Titular Freqüent -->
+          <div>
+            <label class="text-xs text-seDarkGreen font-extrabold block mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-users text-seGreen"></i> El seu 7 Titular Freqüent (Dorsals i posicions):
+            </label>
+            <textarea id="scout-lineup-text" rows="2" placeholder="Ex: #1 Porter alt; #3 i #4 Centrals físics; #6 Migcentre distribuïdor; #7 i #11 Extrems ràpids; #9 Punta golejador..." class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-seGreen"></textarea>
+          </div>
+
+          <!-- Golejador i Jugador Diferencial -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-amber-50/70 p-3 rounded-xl border border-amber-300">
+              <label class="text-xs text-amber-900 font-extrabold block mb-1 flex items-center gap-1.5">
+                <i class="fa-solid fa-futbol text-amber-600"></i> Golejador / Amenaça d'Àrea:
+              </label>
+              <input type="text" id="scout-topscorer" placeholder="Dorsal, cama hàbil i estil..." class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-semibold">
+            </div>
+            <div class="bg-rose-50/70 p-3 rounded-xl border border-rose-300">
+              <label class="text-xs text-rose-900 font-extrabold block mb-1 flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt text-rose-600"></i> Jugador Clau a Pressionar:
+              </label>
+              <input type="text" id="scout-keyplayer" placeholder="Qui fa jugar l'equip rival?" class="w-full bg-white border border-rose-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 font-semibold">
+            </div>
+          </div>
+
+          <!-- Sortida de pilota i Debilitat defensiva -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs text-seDarkGreen font-extrabold block mb-1">
+                <i class="fa-solid fa-route text-seGreen mr-1"></i> Sortida de Pilota del Rival:
+              </label>
+              <textarea id="scout-buildup" rows="3" placeholder="Surten jugant en curt amb els centrals oberts o el porter busca directe al davanter?" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-seGreen resize-none"></textarea>
+            </div>
+            <div>
+              <label class="text-xs text-seDarkGreen font-extrabold block mb-1">
+                <i class="fa-solid fa-shield-virus text-rose-600 mr-1"></i> Punts Febles / Com fer-los mal:
+              </label>
+              <textarea id="scout-weakness" rows="3" placeholder="On deixen espais? Esquena dels laterals, porter dubitatiu per alt, pèrdues al mig..." class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-seGreen resize-none"></textarea>
+            </div>
+          </div>
+
+          <!-- Pilota Parada -->
+          <div>
+            <label class="text-xs text-seDarkGreen font-extrabold block mb-1">
+              <i class="fa-solid fa-flag-checkered text-seGreen mr-1"></i> Accions a Pilota Parada (Còrners i Faltes):
+            </label>
+            <input type="text" id="scout-setpieces" placeholder="Com defensen els còrners? Tenen llançador de falta directa?" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl px-3 py-2 text-xs text-slate-800 font-medium focus:outline-none focus:border-seGreen">
+          </div>
+        </div>
+
+        <!-- Constructor Visual del 7 Titular del Rival (5 columnes) -->
+        <div class="lg:col-span-5 bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-emerald-100 pb-2 mb-3">
+              <div>
+                <h3 class="text-sm font-black uppercase tracking-wider text-seGreen flex items-center gap-1.5">
+                  <i class="fa-solid fa-chess-board"></i> Dibuix del 7 Titular Rival
+                </h3>
+                <p class="text-[11px] text-slate-500">Edita els dorsals/noms del 7 habitual d'aquest equip</p>
+              </div>
+              <span class="text-xs bg-rose-100 text-rose-700 font-extrabold px-2.5 py-0.5 rounded-full">Esquema Rival</span>
+            </div>
+
+            <!-- Llista editable dels 7 dorsals del rival -->
+            <div id="scout-seven-builder" class="space-y-2 mb-3">
+              <!-- S'omple per JS amb els 7 llocs del rival -->
+            </div>
+          </div>
+
+          <!-- Resum per a la Xerrada del Vestidor -->
+          <div class="bg-seSoftMint border-2 border-seGreen/30 rounded-xl p-3 mt-2">
+            <div class="text-xs font-black text-seDarkGreen uppercase flex items-center gap-1.5 mb-1">
+              <i class="fa-solid fa-bullhorn text-seGreen"></i> Consigna Ràpida per al Vestidor:
+            </div>
+            <p id="locker-room-tip" class="text-xs text-emerald-950 font-medium leading-relaxed">
+              Pressionar fort la seva sortida i vigilar el seu davanter referència.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- PESTANYA 3: CLASSIFICACIÓ OFICIAL FCF (16 EQUIPS)       -->
+    <!-- ======================================================== -->
+    <section id="tab-classificacio" class="tab-panel hidden space-y-4">
+      <div class="bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-black text-seDarkGreen uppercase">Classificació Oficial FCF • Tercera Divisió S11 (Grup 10)</h2>
+            <span class="text-xs bg-seGreen text-white px-2.5 py-0.5 rounded-full font-extrabold">16 Equips Oficials</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium mt-0.5">Dades exactes de la Federació Catalana de Futbol. Clica "Scouting" per obrir la fitxa de qualsevol rival.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-bold bg-seSoftMint text-seDarkGreen px-3 py-1.5 rounded-xl border border-seGreen/30">
+          <span class="w-3 h-3 rounded-full bg-seGreen inline-block"></span>
+          9è SANTA EULALIA RONÇANA, C.F. A (3 Punts • 13 GF / 13 GC)
+        </div>
+      </div>
+
+      <!-- Taula de Classificació Oficial -->
+      <div class="bg-white border-2 border-emerald-700/20 rounded-2xl overflow-hidden shadow-md">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-seDarkGreen text-white uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="p-3 text-center w-12">Pos</th>
+                <th class="p-3">Equip Oficial FCF</th>
+                <th class="p-3 text-center font-black">Punts</th>
+                <th class="p-3 text-center">J</th>
+                <th class="p-3 text-center">G</th>
+                <th class="p-3 text-center">E</th>
+                <th class="p-3 text-center">P</th>
+                <th class="p-3 text-center">GF</th>
+                <th class="p-3 text-center">GC</th>
+                <th class="p-3 text-center">Dif</th>
+                <th class="p-3 text-center">Últims</th>
+                <th class="p-3 text-right">Acció Míster</th>
+              </tr>
+            </thead>
+            <tbody id="standings-table-body" class="divide-y divide-emerald-100 font-semibold text-slate-700">
+              <!-- Inserit per JS amb els 16 equips exactes -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- PESTANYA 4: PLANTILLA CF SANTA EULÀLIA                  -->
+    <!-- ======================================================== -->
+    <section id="tab-plantilla" class="tab-panel hidden space-y-4">
+      <div class="bg-white border-2 border-emerald-700/20 rounded-2xl p-4 sm:p-5 shadow-md flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-black text-seDarkGreen uppercase flex items-center gap-2">
+            <i class="fa-solid fa-shirt text-seGreen"></i> Plantilla Oficial CF Santa Eulàlia de Ronçana A
+          </h2>
+          <p class="text-xs text-slate-500 font-medium">Gestió de dorsals, posicions, cama hàbil i estadístiques acumulades dels nostres jugadors</p>
+        </div>
+        <button onclick="openNewPlayerModal()" class="px-4 py-2 bg-seGreen hover:bg-seDarkGreen text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 shadow transition">
+          <i class="fa-solid fa-user-plus"></i> Afegir Jugador
+        </button>
+      </div>
+
+      <div class="bg-white border-2 border-emerald-700/20 rounded-2xl overflow-hidden shadow-md">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-seDarkGreen text-white uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="p-3 text-center w-14">Dorsal</th>
+                <th class="p-3">Jugador</th>
+                <th class="p-3">Posició F7</th>
+                <th class="p-3">Cama Hàbil</th>
+                <th class="p-3 text-center">Gols Acumulats</th>
+                <th class="p-3 text-center">Nota Mitjana</th>
+                <th class="p-3">Perfil / Virtuts</th>
+                <th class="p-3 text-right">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="squad-table-body" class="divide-y divide-emerald-100 font-medium text-slate-700">
+              <!-- Jugadors de la plantilla -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL D'INFORME IMPRIMIBLE (FORMAT FULL TÈCNIC)          -->
+  <!-- ======================================================== -->
+  <div id="print-modal" class="fixed inset-0 bg-emerald-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white border-2 border-seGreen rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-4 border-b border-emerald-100 flex justify-between items-center bg-seDarkGreen text-white no-print">
+        <h3 class="text-sm font-extrabold flex items-center gap-2">
+          <i class="fa-solid fa-file-contract"></i> Full Oficial de Partit i Scouting - CF Santa Eulàlia
+        </h3>
+        <button onclick="closePrintModal()" class="text-emerald-200 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div id="printable-report" class="p-6 overflow-y-auto space-y-4 text-slate-900 bg-white">
+        <!-- Generat dinàmicament -->
+      </div>
+
+      <div class="p-3 border-t border-emerald-100 bg-seLightMint flex justify-end gap-2 no-print">
+        <button onclick="closePrintModal()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900">Tancar</button>
+        <button onclick="window.print()" class="px-4 py-2 text-xs bg-seGreen hover:bg-seDarkGreen text-white font-extrabold rounded-xl flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-print"></i> Imprimir / Guardar PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL AFEGIR JUGADOR -->
+  <div id="player-modal" class="fixed inset-0 bg-emerald-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white border-2 border-seGreen rounded-2xl max-w-sm w-full p-5 space-y-3.5 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-emerald-100 pb-2">
+        <h3 class="text-sm font-black text-seDarkGreen uppercase">Nou Jugador Santa Eulàlia</h3>
+        <button onclick="closeNewPlayerModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+      <form onsubmit="handleNewPlayerSubmit(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="text-seDarkGreen font-bold block mb-1">Dorsal</label>
+          <input type="number" id="form-dorsal" min="1" max="99" required class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2 text-slate-900 font-bold">
+        </div>
+        <div>
+          <label class="text-seDarkGreen font-bold block mb-1">Nom del Jugador</label>
+          <input type="text" id="form-name" required placeholder="Ex: Marc Roca" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2 text-slate-900 font-semibold">
+        </div>
+        <div>
+          <label class="text-seDarkGreen font-bold block mb-1">Posició Natural F7</label>
+          <select id="form-pos" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2 text-slate-900 font-semibold">
+            <option value="POR">Porter (POR)</option>
+            <option value="DFC">Defensa Central (DFC)</option>
+            <option value="LD">Lateral Dret (LD)</option>
+            <option value="LE">Lateral Esquerre (LE)</option>
+            <option value="MC">Migcentre (MC)</option>
+            <option value="ED">Extrem Dret (ED)</option>
+            <option value="EE">Extrem Esquerre (EE)</option>
+            <option value="DC">Davanter Centre (DC)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-seDarkGreen font-bold block mb-1">Cama Hàbil</label>
+          <select id="form-foot" class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2 text-slate-900 font-semibold">
+            <option value="Dretà">Dretà</option>
+            <option value="Esquerrà">Esquerrà</option>
+            <option value="Ambidextre">Ambidextre</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-seDarkGreen font-bold block mb-1">Característiques Tècniques</label>
+          <input type="text" id="form-traits" placeholder="Ex: Rápid al tall, bon xut..." class="w-full bg-seLightMint border-2 border-emerald-600/30 rounded-xl p-2 text-slate-900">
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t border-emerald-100">
+          <button type="button" onclick="closeNewPlayerModal()" class="px-3.5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl">Cancel·lar</button>
+          <button type="submit" class="px-4 py-2 bg-seGreen hover:bg-seDarkGreen font-extrabold text-white rounded-xl shadow">Inscriure</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- NOTIFICACIÓ FLOTANT VERD-I-BLANCA -->
+  <div id="toast-notif" class="fixed bottom-5 right-5 bg-seDarkGreen border-2 border-white text-white px-4 py-3 rounded-2xl text-xs font-extrabold flex items-center gap-2.5 shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50">
+    <i class="fa-solid fa-circle-check text-emerald-300 text-base"></i>
+    <span id="toast-text">Canvis guardats</span>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- LÒGICA JAVASCRIPT COMPLETA                               -->
+  <!-- ======================================================== -->
+  <script>
+    /* 1. ELS 16 EQUIPS OFICIALS EXACTES DEL GRUP 10 FCF */
+    const OFFICIAL_FCF_TEAMS = [
+      { id: "caldes", pos: 1, name: "CALDES MONTBUI, C.F. A", pts: 9, pj: 3, pg: 3, pe: 0, pp: 0, gf: 20, gc: 3, streak: ['G', 'G', 'G'], isMe: false },
+      { id: "sant_fost", pos: 2, name: "SANT FOST , U.E. A", pts: 6, pj: 2, pg: 2, pe: 0, pp: 0, gf: 19, gc: 4, streak: ['G', 'G'], isMe: false },
+      { id: "palau", pos: 3, name: "ASS.ESP.F. BASE PALAU 2024, A", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1, gf: 20, gc: 6, streak: ['P', 'G', 'G'], isMe: false },
+      { id: "sant_feliu", pos: 4, name: "SANT FELIU DE CODINES, C.F. A", pts: 6, pj: 2, pg: 2, pe: 0, pp: 0, gf: 18, gc: 5, streak: ['P', 'G'], isMe: false },
+      { id: "sentmenat", pos: 5, name: "SENTMENAT, C.D. A", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1, gf: 18, gc: 7, streak: ['G', 'G', 'P'], isMe: false },
+      { id: "molletense", pos: 6, name: "MOLLETENSE, U.D. B", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1, gf: 17, gc: 10, streak: ['G', 'G', 'P'], isMe: false },
+      { id: "bigues", pos: 7, name: "BIGUES, C.E. A", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1, gf: 11, gc: 11, streak: ['G', 'G', 'P'], isMe: false },
+      { id: "santa_perpetua", pos: 8, name: "UNIFICACIÓN C.F.SANTA PERPETUA B", pts: 6, pj: 3, pg: 2, pe: 0, pp: 1, gf: 10, gc: 13, streak: ['G', 'P', 'G'], isMe: false },
+      { id: "santa_eulalia", pos: 9, name: "SANTA EULALIA RONÇANA, C.F. A", pts: 3, pj: 2, pg: 1, pe: 0, pp: 1, gf: 13, gc: 13, streak: ['P', 'G'], isMe: true },
+      { id: "lourdes", pos: 10, name: "LOURDES, U.D. A", pts: 3, pj: 2, pg: 1, pe: 0, pp: 1, gf: 7, gc: 8, streak: ['G', 'P'], isMe: false },
+      { id: "mollet_ue", pos: 11, name: "MOLLET U.E.,CF. C", pts: 3, pj: 3, pg: 1, pe: 0, pp: 2, gf: 8, gc: 23, streak: ['P', 'P', 'G'], isMe: false },
+      { id: "montornes", pos: 12, name: "MONTORNES NORTE, C.D. A", pts: 0, pj: 1, pg: 0, pe: 0, pp: 1, gf: 2, gc: 4, streak: ['P'], isMe: false },
+      { id: "llagosta", pos: 13, name: "LA LLAGOSTA, C.D. A", pts: 0, pj: 2, pg: 0, pe: 0, pp: 2, gf: 4, gc: 11, streak: ['P', 'P'], isMe: false },
+      { id: "martorelles", pos: 14, name: "MARTORELLES, C.F. C", pts: 0, pj: 3, pg: 0, pe: 0, pp: 3, gf: 5, gc: 19, streak: ['P', 'P', 'P'], isMe: false },
+      { id: "montmelo", pos: 15, name: "MONTMELO UNIO ESPORTIVA,CF B", pts: 0, pj: 2, pg: 0, pe: 0, pp: 2, gf: 1, gc: 16, streak: ['P', 'P'], isMe: false },
+      { id: "llica_amunt", pos: 16, name: "LLIÇA D'AMUNT, C.E. C", pts: 0, pj: 3, pg: 0, pe: 0, pp: 3, gf: 8, gc: 28, streak: ['G', 'P', 'P'], isMe: false }
+    ];
+
+    /* Plantilla inicial CF Santa Eulàlia Ronçana A */
+    const DEFAULT_SANTA_EULALIA_SQUAD = [
+      { id: "p1", dorsal: 1, name: "Biel Masip", pos: "POR", foot: "Dretà", traits: "Segur per alt i ràpid en l'1vs1", goals: 0 },
+      { id: "p2", dorsal: 2, name: "Arnau Soler", pos: "LD", foot: "Dretà", traits: "Intens en el marcatge i anticipació", goals: 0 },
+      { id: "p3", dorsal: 3, name: "Pol Riera", pos: "DFC", foot: "Dretà", traits: "Líder defensiu, bona sortida de pilota", goals: 1 },
+      { id: "p4", dorsal: 4, name: "Guillem Prat", pos: "LE", foot: "Esquerrà", traits: "Recorregut per banda i centrada", goals: 0 },
+      { id: "p5", dorsal: 6, name: "Jan Vila", pos: "MC", foot: "Ambidextre", traits: "Visió de joc, pausa i gir", goals: 2 },
+      { id: "p6", dorsal: 7, name: "Pau Garriga", pos: "ED", foot: "Dretà", traits: "Vertical, regat en velocitat", goals: 3 },
+      { id: "p7", dorsal: 8, name: "Èric Fonoll", pos: "MC", foot: "Dretà", traits: "Treballador incansable, xut exterior", goals: 1 },
+      { id: "p8", dorsal: 9, name: "Martí Casals", pos: "DC", foot: "Dretà", traits: "Olfacte de gol, desmarcatge de ruptura", goals: 4 },
+      { id: "p9", dorsal: 10, name: "Oriol Rovira", pos: "EE", foot: "Esquerrà", traits: "1vs1 elèctric i llançador de faltes", goals: 2 },
+      { id: "p10", dorsal: 11, name: "Nil Campins", pos: "DC", foot: "Dretà", traits: "Pressió alta als centrals rivals", goals: 0 },
+      { id: "p11", dorsal: 13, name: "Iker Romero", pos: "POR", foot: "Dretà", traits: "Bona passada llarga i reflexos", goals: 0 }
+    ];
+
+    /* Sistemes Tàctics F7 */
+    const TACTICS_LAYOUTS = {
+      '1-2-3-1': {
+        home: [
+          { role: 'POR', x: 50, y: 89, num: '1' },
+          { role: 'LD',  x: 24, y: 73, num: '2' },
+          { role: 'LE',  x: 76, y: 73, num: '4' },
+          { role: 'MC',  x: 50, y: 56, num: '6' },
+          { role: 'ED',  x: 20, y: 39, num: '7' },
+          { role: 'EE',  x: 80, y: 39, num: '10' },
+          { role: 'DC',  x: 50, y: 24, num: '9' }
+        ],
+        away: [
+          { role: 'POR', x: 50, y: 11, num: '1' },
+          { role: 'DF',  x: 28, y: 24, num: '2' },
+          { role: 'DF',  x: 72, y: 24, num: '4' },
+          { role: 'MC',  x: 50, y: 37, num: '6' },
+          { role: 'EX',  x: 22, y: 50, num: '7' },
+          { role: 'EX',  x: 78, y: 50, num: '11' },
+          { role: 'DC',  x: 50, y: 63, num: '9' }
+        ]
+      },
+      '1-3-2-1': {
+        home: [
+          { role: 'POR', x: 50, y: 89, num: '1' },
+          { role: 'LD',  x: 20, y: 74, num: '2' },
+          { role: 'DFC', x: 50, y: 76, num: '3' },
+          { role: 'LE',  x: 80, y: 74, num: '4' },
+          { role: 'MC',  x: 34, y: 53, num: '6' },
+          { role: 'MC',  x: 66, y: 53, num: '8' },
+          { role: 'DC',  x: 50, y: 24, num: '9' }
+        ],
+        away: [
+          { role: 'POR', x: 50, y: 11, num: '1' },
+          { role: 'DF',  x: 20, y: 24, num: '2' },
+          { role: 'DF',  x: 50, y: 22, num: '3' },
+          { role: 'DF',  x: 80, y: 24, num: '4' },
+          { role: 'MC',  x: 35, y: 40, num: '6' },
+          { role: 'MC',  x: 65, y: 40, num: '8' },
+          { role: 'DC',  x: 50, y: 62, num: '9' }
+        ]
+      },
+      '1-3-1-2': {
+        home: [
+          { role: 'POR', x: 50, y: 89, num: '1' },
+          { role: 'LD',  x: 20, y: 74, num: '2' },
+          { role: 'DFC', x: 50, y: 76, num: '3' },
+          { role: 'LE',  x: 80, y: 74, num: '4' },
+          { role: 'MC',  x: 50, y: 52, num: '6' },
+          { role: 'DC',  x: 34, y: 26, num: '7' },
+          { role: 'DC',  x: 66, y: 26, num: '9' }
+        ],
+        away: [
+          { role: 'POR', x: 50, y: 11, num: '1' },
+          { role: 'DF',  x: 22, y: 24, num: '2' },
+          { role: 'DF',  x: 78, y: 24, num: '3' },
+          { role: 'MC',  x: 50, y: 38, num: '6' },
+          { role: 'EX',  x: 20, y: 50, num: '7' },
+          { role: 'EX',  x: 80, y: 50, num: '11' },
+          { role: 'DC',  x: 50, y: 63, num: '9' }
+        ]
+      }
+    };
+
+    const STORAGE_KEY = 'misterhub_santa_eulalia_verd_i_blanc_2627';
+    let showRivalTokens = true;
+
+    let appState = {
+      activeRivalId: 'caldes',
+      currentSystem: '1-2-3-1',
+      squad: [...DEFAULT_SANTA_EULALIA_SQUAD],
+      matches: {},
+      scouting: {}
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStorage();
+      ensureInitialData();
+      renderStandingsTable();
+      populateRivalDropdowns();
+      loadMatchView(appState.activeRivalId);
+      loadScoutView(appState.activeRivalId);
+      renderSquadTable();
+      initTacticalBoardDrag();
+    });
+
+    function ensureInitialData() {
+      OFFICIAL_FCF_TEAMS.forEach(team => {
+        if (!team.isMe) {
+          if (!appState.scouting[team.id]) {
+            appState.scouting[team.id] = {
+              lineupText: `Porter segur sota pals; defensa de 2 o 3 contundent; migcentre canalitzador (#6/#8) i punta ràpid (#9).`,
+              topscorer: `#9 Davanter Centre (${team.gf} gols d'equip en ${team.pj} partits)`,
+              keyplayer: `#8 Migcentre organitzador`,
+              buildup: team.pts >= 6 ? "Intenten sortir jugant des del darrere amb centrals oberts i recolzament del migcentre." : "Inicien amb servei llarg del porter buscant segona jugada en camp contrari.",
+              weakness: "Sofreixen si els pressionem la primera passada i deixen espai a l'esquena dels laterals.",
+              setpieces: "Defensa mixta en còrners; busquen xut directe en faltes properes.",
+              rivalSeven: [
+                { pos: "POR", dorsal: "1", note: "Porter titular" },
+                { pos: "LD",  dorsal: "2", note: "Lateral dret" },
+                { pos: "DFC", dorsal: "4", note: "Central lliure" },
+                { pos: "LE",  dorsal: "3", note: "Lateral esquerre" },
+                { pos: "MC",  dorsal: "6", note: "Migcentre" },
+                { pos: "EX",  dorsal: "7", note: "Banda ràpid" },
+                { pos: "DC",  dorsal: "9", note: "Golejador" }
+              ]
+            };
+          }
+          if (!appState.matches[team.id]) {
+            appState.matches[team.id] = {
+              jornada: 3,
+              venue: 'CASA',
+              system: '1-2-3-1',
+              score: { q1: {h:0, a:0}, q2: {h:0, a:0}, q3: {h:0, a:0}, q4: {h:0, a:0} },
+              starters: [1, 2, 4, 6, 7, 10, 9],
+              cronica: "",
+              trainingFocus: "",
+              mvp: "",
+              playerNotes: {}
+            };
+          }
+        }
+      });
+    }
+
+    function loadStorage() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          appState = { ...appState, ...parsed };
+        } catch(e) {
+          console.warn('Error llegint dades locals.');
+        }
+      }
+    }
+
+    function saveFullData() {
+      saveCurrentMatchState();
+      saveScoutData(false);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      showToast('Dades del CF Santa Eulàlia guardades!');
+    }
+
+    /* CANVI DE PESTANYES (TABS) */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = "tab-btn px-4 py-2 font-bold rounded-t-xl bg-emerald-900/50 text-emerald-100 hover:bg-emerald-800/60 hover:text-white flex items-center gap-2 whitespace-nowrap transition";
+      });
+
+      const activePanel = document.getElementById(`tab-${tabId}`);
+      const activeBtn = document.getElementById(`tab-nav-${tabId}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.className = "tab-btn px-4 py-2 font-extrabold rounded-t-xl bg-white text-seGreen shadow-sm flex items-center gap-2 whitespace-nowrap transition";
+      }
+
+      if (tabId === 'scouting') {
+        loadScoutView(appState.activeRivalId);
+      }
+    }
+
+    /* TAULA DE CLASSIFICACIÓ OFICIAL FCF (16 EQUIPS) */
+    function renderStandingsTable() {
+      const tbody = document.getElementById('standings-table-body');
+      tbody.innerHTML = '';
+
+      OFFICIAL_FCF_TEAMS.forEach(team => {
+        const tr = document.createElement('tr');
+        const diff = team.gf - team.gc;
+        const diffStr = diff > 0 ? `+${diff}` : `${diff}`;
+
+        if (team.isMe) {
+          tr.className = "bg-seSoftMint border-l-8 border-seGreen font-black text-seDarkGreen shadow-sm";
+        } else {
+          tr.className = "hover:bg-emerald-50/70 transition";
+        }
+
+        const streakHtml = team.streak.map(res => {
+          if (res === 'G') return `<span class="inline-block w-5 h-5 rounded-full bg-seGreen text-[10px] font-black text-white leading-5 text-center shadow-sm">G</span>`;
+          if (res === 'P') return `<span class="inline-block w-5 h-5 rounded-full bg-rose-500 text-[10px] font-black text-white leading-5 text-center shadow-sm">P</span>`;
+          return `<span class="inline-block w-5 h-5 rounded-full bg-amber-400 text-[10px] font-black text-slate-900 leading-5 text-center shadow-sm">E</span>`;
+        }).join(' ');
+
+        tr.innerHTML = `
+          <td class="p-3 text-center font-black ${team.pos <= 3 ? 'text-seGreen text-sm' : 'text-slate-500'}">${team.pos}</td>
+          <td class="p-3 font-extrabold ${team.isMe ? 'text-seGreen text-sm' : 'text-slate-800'}">
+            <div class="flex items-center gap-2">
+              <span>${team.name}</span>
+              ${team.isMe ? '<span class="text-[10px] bg-seGreen text-white px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">El Nostre Equip</span>' : ''}
+            </div>
+          </td>
+          <td class="p-3 text-center font-black text-seDarkGreen font-teko text-xl">${team.pts}</td>
+          <td class="p-3 text-center">${team.pj}</td>
+          <td class="p-3 text-center text-emerald-700 font-bold">${team.pg}</td>
+          <td class="p-3 text-center text-slate-500">${team.pe}</td>
+          <td class="p-3 text-center text-rose-600">${team.pp}</td>
+          <td class="p-3 text-center font-bold text-seGreen">${team.gf}</td>
+          <td class="p-3 text-center font-bold text-rose-600">${team.gc}</td>
+          <td class="p-3 text-center font-bold ${diff > 0 ? 'text-seGreen' : (diff < 0 ? 'text-rose-600' : 'text-slate-500')}">${diffStr}</td>
+          <td class="p-3 text-center whitespace-nowrap">${streakHtml}</td>
+          <td class="p-3 text-right">
+            ${team.isMe ? '<span class="text-xs font-extrabold text-seGreen">🟢⚪ Som nosaltres</span>' : `
+              <button onclick="goToRivalScouting('${team.id}')" class="px-3 py-1.5 bg-seSoftMint hover:bg-seGreen text-seDarkGreen hover:text-white rounded-xl text-[11px] font-extrabold transition shadow-sm">
+                <i class="fa-solid fa-binoculars mr-1"></i> Scouting
+              </button>
+            `}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function goToRivalScouting(rivalId) {
+      appState.activeRivalId = rivalId;
+      document.getElementById('match-rival-select').value = rivalId;
+      document.getElementById('scout-switch-rival').value = rivalId;
+      switchTab('scouting');
+      loadScoutView(rivalId);
+    }
+
+    function populateRivalDropdowns() {
+      const matchSelect = document.getElementById('match-rival-select');
+      const scoutSelect = document.getElementById('scout-switch-rival');
+      matchSelect.innerHTML = '';
+      scoutSelect.innerHTML = '';
+
+      OFFICIAL_FCF_TEAMS.forEach(t => {
+        if (!t.isMe) {
+          const opt1 = document.createElement('option');
+          opt1.value = t.id;
+          opt1.textContent = `${t.pos}è - ${t.name} (${t.pts} pts)`;
+          matchSelect.appendChild(opt1);
+
+          const opt2 = document.createElement('option');
+          opt2.value = t.id;
+          opt2.textContent = `${t.pos}è - ${t.name}`;
+          scoutSelect.appendChild(opt2);
+        }
+      });
+
+      matchSelect.value = appState.activeRivalId;
+      scoutSelect.value = appState.activeRivalId;
+    }
+
+    function onSelectRival(rivalId) {
+      saveCurrentMatchState();
+      appState.activeRivalId = rivalId;
+      document.getElementById('match-rival-select').value = rivalId;
+      document.getElementById('scout-switch-rival').value = rivalId;
+      loadMatchView(rivalId);
+      loadScoutView(rivalId);
+    }
+
+    /* GESTIÓ DEL PARTIT I PISSARRA F7 */
+    function loadMatchView(rivalId) {
+      const match = appState.matches[rivalId];
+      const rivalTeam = OFFICIAL_FCF_TEAMS.find(t => t.id === rivalId) || OFFICIAL_FCF_TEAMS[0];
+      document.getElementById('scoreboard-rival-title').textContent = rivalTeam.name;
+
+      document.getElementById('match-jornada').value = match.jornada || 3;
+      document.getElementById('match-venue').value = match.venue || 'CASA';
+
+      document.getElementById('q1-home').value = match.score.q1.h;
+      document.getElementById('q1-away').value = match.score.q1.a;
+      document.getElementById('q2-home').value = match.score.q2.h;
+      document.getElementById('q2-away').value = match.score.q2.a;
+      document.getElementById('q3-home').value = match.score.q3.h;
+      document.getElementById('q3-away').value = match.score.q3.a;
+      document.getElementById('q4-home').value = match.score.q4.h;
+      document.getElementById('q4-away').value = match.score.q4.a;
+
+      calculateScore();
+
+      document.getElementById('match-cronica').value = match.cronica || '';
+      document.getElementById('match-training-focus').value = match.trainingFocus || '';
+      document.getElementById('match-mvp').value = match.mvp || '';
+
+      appState.currentSystem = match.system || '1-2-3-1';
+      updateSystemButtonsUI(appState.currentSystem);
+      renderTacticalPitch(appState.currentSystem, match.starters);
+      renderMatchSquadList(match.starters);
+      renderMatchRatingsTable(match.playerNotes || {});
+    }
+
+    function calculateScore() {
+      const q = [1, 2, 3, 4].map(n => ({
+        h: parseInt(document.getElementById(`q${n}-home`).value) || 0,
+        a: parseInt(document.getElementById(`q${n}-away`).value) || 0
+      }));
+
+      let totalH = 0, totalA = 0, qWon = 0, qDraw = 0, qLost = 0;
+      q.forEach(item => {
+        totalH += item.h;
+        totalA += item.a;
+        if (item.h > item.a) qWon++;
+        else if (item.h === item.a) qDraw++;
+        else qLost++;
+      });
+
+      document.getElementById('total-score-home').textContent = totalH;
+      document.getElementById('total-score-away').textContent = totalA;
+      document.getElementById('quarters-summary-badge').textContent = `Quarts: ${qWon}G - ${qDraw}E - ${qLost}P`;
+    }
+
+    function saveCurrentMatchState() {
+      const rId = appState.activeRivalId;
+      if (!appState.matches[rId]) return;
+
+      appState.matches[rId].jornada = parseInt(document.getElementById('match-jornada').value) || 3;
+      appState.matches[rId].venue = document.getElementById('match-venue').value;
+      appState.matches[rId].system = appState.currentSystem;
+      appState.matches[rId].cronica = document.getElementById('match-cronica').value;
+      appState.matches[rId].trainingFocus = document.getElementById('match-training-focus').value;
+      appState.matches[rId].mvp = document.getElementById('match-mvp').value;
+
+      appState.matches[rId].score = {
+        q1: { h: parseInt(document.getElementById('q1-home').value) || 0, a: parseInt(document.getElementById('q1-away').value) || 0 },
+        q2: { h: parseInt(document.getElementById('q2-home').value) || 0, a: parseInt(document.getElementById('q2-away').value) || 0 },
+        q3: { h: parseInt(document.getElementById('q3-home').value) || 0, a: parseInt(document.getElementById('q3-away').value) || 0 },
+        q4: { h: parseInt(document.getElementById('q4-home').value) || 0, a: parseInt(document.getElementById('q4-away').value) || 0 }
+      };
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+    }
+
+    function changeTacticalSystem(sys) {
+      appState.currentSystem = sys;
+      updateSystemButtonsUI(sys);
+      const starters = appState.matches[appState.activeRivalId]?.starters || [1, 2, 4, 6, 7, 10, 9];
+      renderTacticalPitch(sys, starters);
+      saveCurrentMatchState();
+    }
+
+    function updateSystemButtonsUI(sys) {
+      ['1-2-3-1', '1-3-2-1', '1-3-1-2'].forEach(s => {
+        const b = document.getElementById(`sys-btn-${s}`);
+        if (b) {
+          if (s === sys) {
+            b.className = "sys-btn px-2.5 py-1.5 bg-seGreen text-white rounded-lg font-extrabold shadow-sm";
+          } else {
+            b.className = "sys-btn px-2.5 py-1.5 bg-seSoftMint text-seDarkGreen rounded-lg font-bold hover:bg-emerald-200";
+          }
+        }
+      });
+    }
+
+    function toggleRivalOnMainPitch(checked) {
+      showRivalTokens = checked;
+      const starters = appState.matches[appState.activeRivalId]?.starters || [1, 2, 4, 6, 7, 10, 9];
+      renderTacticalPitch(appState.currentSystem, starters);
+    }
+
+    function renderTacticalPitch(system, starters) {
+      const container = document.getElementById('pitch-tokens-container');
+      container.innerHTML = '';
+      const layout = TACTICS_LAYOUTS[system] || TACTICS_LAYOUTS['1-2-3-1'];
+
+      // 7 Titular del CF Santa Eulàlia (Fitxes Verd-i-Blanques)
+      layout.home.forEach((pos, idx) => {
+        const dorsal = starters[idx] || pos.num;
+        const playerObj = appState.squad.find(p => p.dorsal == dorsal);
+        const nameDisplay = playerObj ? playerObj.name.split(' ')[0] : `#${dorsal}`;
+
+        const token = document.createElement('div');
+        token.className = "player-token absolute flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2";
+        token.style.left = `${pos.x}%`;
+        token.style.top = `${pos.y}%`;
+
+        token.innerHTML = `
+          <div class="w-9 h-9 rounded-full se-striped-token flex items-center justify-center relative">
+            <span class="bg-seDarkGreen text-white font-black text-xs px-1.5 py-0.5 rounded-full border border-white shadow">${dorsal}</span>
+          </div>
+          <div class="px-1.5 py-0.5 mt-0.5 rounded-md bg-white text-[10px] text-seDarkGreen font-extrabold shadow border border-seGreen whitespace-nowrap">
+            ${nameDisplay} <span class="text-seGreen">(${pos.role})</span>
+          </div>
+        `;
+        container.appendChild(token);
+      });
+
+      // 7 Titular del Rival si està actiu
+      if (showRivalTokens) {
+        const rivalScout = appState.scouting[appState.activeRivalId]?.rivalSeven || [];
+        layout.away.forEach((pos, idx) => {
+          const rData = rivalScout[idx] || { dorsal: pos.num, pos: pos.role };
+          const token = document.createElement('div');
+          token.className = "player-token absolute flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2";
+          token.style.left = `${pos.x}%`;
+          token.style.top = `${pos.y}%`;
+
+          token.innerHTML = `
+            <div class="w-7 h-7 rounded-full bg-rose-600 border-2 border-white flex items-center justify-center font-black text-white text-[11px] shadow-md">
+              ${rData.dorsal}
+            </div>
+            <div class="px-1 py-0.2 mt-0.5 rounded bg-slate-900/90 text-[9px] text-amber-300 font-bold whitespace-nowrap">
+              Rival (${rData.pos})
+            </div>
+          `;
+          container.appendChild(token);
+        });
+      }
+    }
+
+    function resetPitchTokens() {
+      const starters = appState.matches[appState.activeRivalId]?.starters || [1, 2, 4, 6, 7, 10, 9];
+      renderTacticalPitch(appState.currentSystem, starters);
+    }
+
+    function initTacticalBoardDrag() {
+      const board = document.getElementById('tactical-field');
+      let activeEl = null;
+      let offX = 0, offY = 0;
+
+      function start(e) {
+        const token = e.target.closest('.player-token');
+        if (!token) return;
+        activeEl = token;
+        const rect = token.getBoundingClientRect();
+        const cx = e.touches ? e.touches[0].clientX : e.clientX;
+        const cy = e.touches ? e.touches[0].clientY : e.clientY;
+        offX = cx - rect.left;
+        offY = cy - rect.top;
+        activeEl.classList.add('z-50');
+      }
+
+      function move(e) {
+        if (!activeEl) return;
+        e.preventDefault();
+        const bRect = board.getBoundingClientRect();
+        const cx = e.touches ? e.touches[0].clientX : e.clientX;
+        const cy = e.touches ? e.touches[0].clientY : e.clientY;
+
+        let x = cx - bRect.left - offX + 18;
+        let y = cy - bRect.top - offY + 18;
+
+        x = Math.max(18, Math.min(bRect.width - 18, x));
+        y = Math.max(18, Math.min(bRect.height - 18, y));
+
+        activeEl.style.left = `${(x / bRect.width) * 100}%`;
+        activeEl.style.top = `${(y / bRect.height) * 100}%`;
+      }
+
+      function end() {
+        if (activeEl) {
+          activeEl.classList.remove('z-50');
+          activeEl = null;
+        }
+      }
+
+      board.addEventListener('mousedown', start);
+      window.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+
+      board.addEventListener('touchstart', start, { passive: false });
+      window.addEventListener('touchmove', move, { passive: false });
+      window.addEventListener('touchend', end);
+    }
+
+    /* CONVOCATÒRIA I SELECCIÓ DEL 7 TITULAR */
+    function renderMatchSquadList(currentStarters) {
+      const container = document.getElementById('match-squad-container');
+      container.innerHTML = '';
+
+      appState.squad.forEach(player => {
+        const isStarter = currentStarters.includes(player.dorsal);
+        const item = document.createElement('div');
+        item.className = `flex items-center justify-between p-2 rounded-xl border-2 text-xs transition ${
+          isStarter ? 'bg-seSoftMint border-seGreen text-seDarkGreen' : 'bg-slate-50 border-slate-200 text-slate-600'
+        }`;
+
+        item.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-lg font-black flex items-center justify-center text-xs shadow-sm ${
+              isStarter ? 'bg-seGreen text-white' : 'bg-white text-slate-600 border border-slate-300'
+            }">
+              ${player.dorsal}
+            </span>
+            <div>
+              <span class="font-extrabold leading-tight block text-slate-900">${player.name}</span>
+              <span class="text-[10px] font-semibold text-seGreen">${player.pos} • ${player.foot}</span>
+            </div>
+          </div>
+
+          <button onclick="toggleStarter(${player.dorsal})" class="px-2.5 py-1 rounded-lg font-extrabold text-[11px] transition ${
+            isStarter ? 'bg-seGreen text-white shadow-sm' : 'bg-white border border-slate-300 text-slate-600 hover:bg-emerald-50'
+          }">
+            ${isStarter ? '✓ 7 Titular' : 'Banqueta'}
+          </button>
+        `;
+        container.appendChild(item);
+      });
+
+      const count = currentStarters.length;
+      const badge = document.getElementById('starters-badge');
+      badge.textContent = `${count}/7 Titulars`;
+      badge.className = `text-xs font-extrabold px-2.5 py-0.5 rounded-full shadow-sm ${
+        count === 7 ? 'bg-seGreen text-white' : 'bg-amber-400 text-slate-900'
+      }`;
+    }
+
+    function toggleStarter(dorsal) {
+      const match = appState.matches[appState.activeRivalId];
+      let starters = match.starters || [];
+
+      if (starters.includes(dorsal)) {
+        starters = starters.filter(d => d !== dorsal);
+      } else {
+        if (starters.length >= 7) {
+          showToast('Ja tens 7 titulars! Desmarca un jugador abans.');
+          return;
+        }
+        starters.push(dorsal);
+      }
+
+      match.starters = starters;
+      renderMatchSquadList(starters);
+      renderTacticalPitch(appState.currentSystem, starters);
+      saveCurrentMatchState();
+    }
+
+    function autoAssignStarters() {
+      const defaultSeven = appState.squad.slice(0, 7).map(p => p.dorsal);
+      appState.matches[appState.activeRivalId].starters = defaultSeven;
+      renderMatchSquadList(defaultSeven);
+      renderTacticalPitch(appState.currentSystem, defaultSeven);
+      saveCurrentMatchState();
+      showToast('7 Titular carregat a la pissarra');
+    }
+
+    function distributeQuartersFairly() {
+      const match = appState.matches[appState.activeRivalId];
+      if (!match.playerNotes) match.playerNotes = {};
+      const patterns = ['Q1, Q2, Q4', 'Q1, Q3, Q4', 'Q1, Q2, Q3', 'Q2, Q3, Q4', 'Q1, Q3', 'Q2, Q4'];
+      appState.squad.forEach((p, idx) => {
+        if (!match.playerNotes[p.dorsal]) {
+          match.playerNotes[p.dorsal] = { goals: 0, quarters: patterns[idx % patterns.length], rating: 8, notes: '' };
+        } else {
+          match.playerNotes[p.dorsal].quarters = patterns[idx % patterns.length];
+        }
+      });
+      renderMatchRatingsTable(match.playerNotes);
+      saveCurrentMatchState();
+      showToast('Quarts equilibrats segons normativa FCF!');
+    }
+
+    /* TAULA D'ACTUACIÓ I NOTES DEL PARTIT */
+    function renderMatchRatingsTable(ratings) {
+      const tbody = document.getElementById('match-ratings-table-body');
+      tbody.innerHTML = '';
+
+      appState.squad.forEach(p => {
+        const r = ratings[p.dorsal] || { goals: 0, quarters: 'Q1, Q2, Q4', rating: 8, notes: '' };
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-seLightMint transition";
+
+        tr.innerHTML = `
+          <td class="p-2 whitespace-nowrap font-bold text-slate-800">
+            <span class="inline-block w-6 text-center font-black text-seGreen">#${p.dorsal}</span> ${p.name}
+          </td>
+          <td class="p-2 text-center">
+            <input type="number" min="0" value="${r.goals}" onchange="updatePlayerRating(${p.dorsal}, 'goals', this.value)" class="w-11 bg-seLightMint border border-emerald-600/40 text-center rounded-lg py-1 text-seDarkGreen font-black">
+          </td>
+          <td class="p-2 text-center">
+            <input type="text" value="${r.quarters}" oninput="updatePlayerRating(${p.dorsal}, 'quarters', this.value)" class="w-24 bg-seLightMint border border-emerald-600/40 text-center rounded-lg py-1 text-[11px] text-seDarkGreen font-bold">
+          </td>
+          <td class="p-2 text-center">
+            <select onchange="updatePlayerRating(${p.dorsal}, 'rating', this.value)" class="bg-seSoftMint border border-seGreen/40 rounded-lg py-1 px-1.5 font-black text-seDarkGreen">
+              ${[10, 9, 8, 7, 6, 5].map(n => `<option value="${n}" ${r.rating == n ? 'selected' : ''}>${n}</option>`).join('')}
+            </select>
+          </td>
+          <td class="p-2">
+            <input type="text" value="${r.notes}" oninput="updatePlayerRating(${p.dorsal}, 'notes', this.value)" placeholder="Apunt del míster..." class="w-full bg-seLightMint border border-emerald-600/30 rounded-lg py-1 px-2 text-xs text-slate-800">
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updatePlayerRating(dorsal, field, val) {
+      const match = appState.matches[appState.activeRivalId];
+      if (!match.playerNotes) match.playerNotes = {};
+      if (!match.playerNotes[dorsal]) {
+        match.playerNotes[dorsal] = { goals: 0, quarters: 'Q1, Q2, Q4', rating: 8, notes: '' };
+      }
+
+      if (field === 'goals' || field === 'rating') {
+        match.playerNotes[dorsal][field] = parseInt(val) || 0;
+      } else {
+        match.playerNotes[dorsal][field] = val;
+      }
+
+      saveCurrentMatchState();
+      renderSquadTable();
+    }
+
+    /* PESTANYA D'SCOUTING DEL RIVAL */
+    function loadScoutView(rivalId) {
+      const rival = OFFICIAL_FCF_TEAMS.find(t => t.id === rivalId) || OFFICIAL_FCF_TEAMS[0];
+      const scout = appState.scouting[rivalId] || {};
+
+      document.getElementById('scout-pos-badge').textContent = `${rival.pos}è`;
+      document.getElementById('scout-club-name').textContent = rival.name;
+      document.getElementById('scout-club-stats').textContent = 
+        `${rival.pts} Punts • ${rival.pj} PJ (${rival.pg}G, ${rival.pe}E, ${rival.pp}P) • ${rival.gf} Gols a Favor / ${rival.gc} Gols en Contra`;
+
+      document.getElementById('scout-lineup-text').value = scout.lineupText || '';
+      document.getElementById('scout-topscorer').value = scout.topscorer || '';
+      document.getElementById('scout-keyplayer').value = scout.keyplayer || '';
+      document.getElementById('scout-buildup').value = scout.buildup || '';
+      document.getElementById('scout-weakness').value = scout.weakness || '';
+      document.getElementById('scout-setpieces').value = scout.setpieces || '';
+
+      renderRivalSevenBuilder(rivalId);
+      updateLockerRoomTip(rival, scout);
+    }
+
+    function renderRivalSevenBuilder(rivalId) {
+      const container = document.getElementById('scout-seven-builder');
+      container.innerHTML = '';
+      const scout = appState.scouting[rivalId];
+      if (!scout.rivalSeven) {
+        scout.rivalSeven = [
+          { pos: "POR", dorsal: "1", note: "Porter titular" },
+          { pos: "LD",  dorsal: "2", note: "Lateral dret" },
+          { pos: "DFC", dorsal: "4", note: "Central" },
+          { pos: "LE",  dorsal: "3", note: "Lateral esquerre" },
+          { pos: "MC",  dorsal: "6", note: "Migcentre" },
+          { pos: "EX",  dorsal: "7", note: "Extrem" },
+          { pos: "DC",  dorsal: "9", note: "Davanter" }
+        ];
+      }
+
+      scout.rivalSeven.forEach((slot, idx) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center gap-2 bg-seLightMint p-1.5 rounded-xl border border-emerald-600/20 text-xs";
+        row.innerHTML = `
+          <span class="w-10 text-center font-black text-white bg-rose-600 rounded-lg py-1 text-[10px]">${slot.pos}</span>
+          <input type="text" value="${slot.dorsal}" oninput="updateRivalSevenSlot(${idx}, 'dorsal', this.value)" class="w-10 text-center font-black bg-white border border-slate-300 rounded-lg py-1 text-slate-900" placeholder="#">
+          <input type="text" value="${slot.note}" oninput="updateRivalSevenSlot(${idx}, 'note', this.value)" class="flex-1 bg-white border border-slate-300 rounded-lg py-1 px-2 text-slate-800 font-medium" placeholder="Característica del jugador rival...">
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updateRivalSevenSlot(idx, field, val) {
+      const scout = appState.scouting[appState.activeRivalId];
+      if (scout && scout.rivalSeven && scout.rivalSeven[idx]) {
+        scout.rivalSeven[idx][field] = val;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        const starters = appState.matches[appState.activeRivalId]?.starters || [1, 2, 4, 6, 7, 10, 9];
+        renderTacticalPitch(appState.currentSystem, starters);
+      }
+    }
+
+    function updateLockerRoomTip(rival, scout) {
+      const tipEl = document.getElementById('locker-room-tip');
+      tipEl.textContent = `Contra el ${rival.name}: vigilar d'aprop a ${scout.topscorer || 'la seva referència ofensiva'}, pressionar a ${scout.keyplayer || 'la seva sortida'} i atacar ${scout.weakness || 'l\'esquena de la seva defensa'}.`;
+    }
+
+    function saveScoutData(showNotif = true) {
+      const rId = appState.activeRivalId;
+      if (!appState.scouting[rId]) appState.scouting[rId] = {};
+
+      appState.scouting[rId].lineupText = document.getElementById('scout-lineup-text').value;
+      appState.scouting[rId].topscorer = document.getElementById('scout-topscorer').value;
+      appState.scouting[rId].keyplayer = document.getElementById('scout-keyplayer').value;
+      appState.scouting[rId].buildup = document.getElementById('scout-buildup').value;
+      appState.scouting[rId].weakness = document.getElementById('scout-weakness').value;
+      appState.scouting[rId].setpieces = document.getElementById('scout-setpieces').value;
+
+      const rival = OFFICIAL_FCF_TEAMS.find(t => t.id === rId) || OFFICIAL_FCF_TEAMS[0];
+      updateLockerRoomTip(rival, appState.scouting[rId]);
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      if (showNotif) showToast(`Scouting de ${rival.name} guardat!`);
+    }
+
+    /* PLANTILLA CF SANTA EULÀLIA */
+    function renderSquadTable() {
+      const tbody = document.getElementById('squad-table-body');
+      tbody.innerHTML = '';
+
+      appState.squad.sort((a,b) => a.dorsal - b.dorsal).forEach(p => {
+        let goalsInLeague = p.goals || 0;
+        let ratingsSum = 0;
+        let countRated = 0;
+
+        Object.values(appState.matches).forEach(m => {
+          if (m.playerNotes && m.playerNotes[p.dorsal]) {
+            const pn = m.playerNotes[p.dorsal];
+            goalsInLeague += (pn.goals || 0);
+            if (pn.rating) {
+              ratingsSum += pn.rating;
+              countRated++;
+            }
+          }
+        });
+
+        const avg = countRated > 0 ? (ratingsSum / countRated).toFixed(1) : '8.0';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-seLightMint transition";
+        tr.innerHTML = `
+          <td class="p-3 text-center">
+            <span class="inline-flex w-8 h-8 rounded-full se-striped-token items-center justify-center">
+              <span class="bg-seDarkGreen text-white font-black text-xs px-1.5 rounded-full">${p.dorsal}</span>
+            </span>
+          </td>
+          <td class="p-3 font-extrabold text-seDarkGreen">${p.name}</td>
+          <td class="p-3"><span class="px-2.5 py-1 rounded-lg bg-seSoftMint text-seDarkGreen font-extrabold">${p.pos}</span></td>
+          <td class="p-3 font-semibold text-slate-600">${p.foot}</td>
+          <td class="p-3 text-center font-black text-seGreen text-sm">${goalsInLeague} ⚽</td>
+          <td class="p-3 text-center font-black text-amber-600 text-sm">${avg} ★</td>
+          <td class="p-3 text-slate-600">${p.traits}</td>
+          <td class="p-3 text-right">
+            <button onclick="removePlayer('${p.id}')" class="text-slate-400 hover:text-rose-600 p-1.5" title="Baixa">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openNewPlayerModal() {
+      document.getElementById('player-modal').classList.remove('hidden');
+    }
+    function closeNewPlayerModal() {
+      document.getElementById('player-modal').classList.add('hidden');
+    }
+
+    function handleNewPlayerSubmit(e) {
+      e.preventDefault();
+      const dorsal = parseInt(document.getElementById('form-dorsal').value);
+      const name = document.getElementById('form-name').value.trim();
+      const pos = document.getElementById('form-pos').value;
+      const foot = document.getElementById('form-foot').value;
+      const traits = document.getElementById('form-traits').value.trim();
+
+      if (appState.squad.some(p => p.dorsal === dorsal)) {
+        showToast(`El dorsal #${dorsal} ja està assignat!`);
+        return;
+      }
+
+      appState.squad.push({
+        id: 'p_' + Date.now(),
+        dorsal, name, pos, foot, traits, goals: 0
+      });
+
+      saveFullData();
+      renderSquadTable();
+      renderMatchSquadList(appState.matches[appState.activeRivalId]?.starters || []);
+      closeNewPlayerModal();
+      showToast(`Jugador #${dorsal} ${name} inscrit!`);
+    }
+
+    function removePlayer(id) {
+      if (appState.squad.length <= 7) {
+        showToast('Mínim 7 jugadors necessaris a la plantilla F7.');
+        return;
+      }
+      appState.squad = appState.squad.filter(p => p.id !== id);
+      saveFullData();
+      renderSquadTable();
+      renderMatchSquadList(appState.matches[appState.activeRivalId]?.starters || []);
+    }
+
+    /* GENERADOR D'INFORME IMPRIMIBLE */
+    function openPrintModal() {
+      saveCurrentMatchState();
+      const rId = appState.activeRivalId;
+      const match = appState.matches[rId];
+      const rival = OFFICIAL_FCF_TEAMS.find(t => t.id === rId) || OFFICIAL_FCF_TEAMS[0];
+      const scout = appState.scouting[rId] || {};
+
+      const totalH = (match.score.q1.h + match.score.q2.h + match.score.q3.h + match.score.q4.h);
+      const totalA = (match.score.q1.a + match.score.q2.a + match.score.q3.a + match.score.q4.a);
+
+      const startersNames = (match.starters || []).map(d => {
+        const p = appState.squad.find(sq => sq.dorsal === d);
+        return p ? `#${p.dorsal} ${p.name}` : `#${d}`;
+      }).join(' • ');
+
+      const container = document.getElementById('printable-report');
+      container.innerHTML = `
+        <div class="border-b-4 border-seGreen pb-3 mb-4 flex justify-between items-center">
+          <div>
+            <h1 class="text-xl font-black text-seDarkGreen">SANTA EULALIA RONÇANA, C.F. A</h1>
+            <p class="text-xs text-seGreen font-extrabold uppercase">Full Tècnic de Partit i Scouting • Aleví S11 Grup 10 FCF</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-black px-3 py-1 bg-seGreen text-white rounded-lg">Jornada ${match.jornada} (${match.venue})</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 p-3.5 bg-seLightMint rounded-xl border border-seGreen/30">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-500 block">Partit Oficial</span>
+            <div class="text-sm font-black text-seDarkGreen">CF Santa Eulàlia vs ${rival.name}</div>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-500 block">Resultat per Quarts (4x12')</span>
+            <div class="text-sm font-bold text-slate-900">
+              Q1: ${match.score.q1.h}-${match.score.q1.a} | 
+              Q2: ${match.score.q2.h}-${match.score.q2.a} | 
+              Q3: ${match.score.q3.h}-${match.score.q3.a} | 
+              Q4: ${match.score.q4.h}-${match.score.q4.a}
+              <span class="ml-2 font-black text-seGreen">(TOTAL: ${totalH} - ${totalA})</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3 text-xs text-slate-800">
+          <div>
+            <span class="font-black uppercase text-seDarkGreen block mb-1">7 Titular Santa Eulàlia (Sistema ${match.system}):</span>
+            <p class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold">${startersNames}</p>
+          </div>
+
+          <div>
+            <span class="font-black uppercase text-seDarkGreen block mb-1">Crònica del Míster:</span>
+            <p class="p-3 bg-slate-50 border border-slate-200 rounded-lg whitespace-pre-wrap">${match.cronica || 'Sense crònica registrada.'}</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-2.5 bg-seLightMint border border-seGreen/30 rounded-lg">
+              <span class="font-black text-seDarkGreen block mb-0.5">Objectiu Setmanal d'Entrenament:</span>
+              <p>${match.trainingFocus || 'Continuar treballant conceptes col·lectius.'}</p>
+            </div>
+            <div class="p-2.5 bg-amber-50 border border-amber-300 rounded-lg">
+              <span class="font-black text-amber-900 block mb-0.5">Jugador Destacat (MVP):</span>
+              <p>${match.mvp || 'Esforç coral de tot l\'equip.'}</p>
+            </div>
+          </div>
+
+          <div class="border-t-2 border-emerald-100 pt-3">
+            <span class="font-black uppercase text-seDarkGreen block mb-1">Informe Scouting del Rival (${rival.name}):</span>
+            <ul class="list-disc list-inside space-y-1 text-[11px]">
+              <li><strong>7 Titular Freqüent:</strong> ${scout.lineupText || '-'}</li>
+              <li><strong>Golejador / Referència:</strong> ${scout.topscorer || '-'}</li>
+              <li><strong>Jugador Clau:</strong> ${scout.keyplayer || '-'}</li>
+              <li><strong>Sortida de Pilota:</strong> ${scout.buildup || '-'}</li>
+              <li><strong>Punts Febles:</strong> ${scout.weakness || '-'}</li>
+            </ul>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('print-modal').classList.remove('hidden');
+    }
+
+    function closePrintModal() {
+      document.getElementById('print-modal').classList.add('hidden');
+    }
+
+    /* EXPORTAR I IMPORTAR BACKUP JSON */
+    function exportBackup() {
+      saveFullData();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const dl = document.createElement('a');
+      dl.setAttribute("href", dataStr);
+      dl.setAttribute("download", `santa_eulalia_s11_g10_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(dl);
+      dl.click();
+      dl.remove();
+      showToast('Còpia de seguretat JSON descarregada!');
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.squad && parsed.matches) {
+            appState = parsed;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            loadMatchView(appState.activeRivalId);
+            loadScoutView(appState.activeRivalId);
+            renderSquadTable();
+            showToast('Dades importades correctament!');
+          } else {
+            showToast('Format d\'arxiu no vàlid.');
+          }
+        } catch(err) {
+          showToast('Error en carregar l\'arxiu JSON.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notif');
+      const text = document.getElementById('toast-text');
+      text.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+  </script>
+</body>
+</html>
